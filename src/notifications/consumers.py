@@ -1,6 +1,8 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
 
+from notifications.models import Notification
+
 
 class NotificationConsumer(JsonWebsocketConsumer):
 
@@ -21,3 +23,18 @@ class NotificationConsumer(JsonWebsocketConsumer):
             },
         }
         self.send_json(json)
+
+    def send_must_refresh(self):
+        json = {
+            "type": "mustRefresh",
+            "content": {},
+        }
+        self.send_json(json)
+
+    def receive_json(self, content, **kwargs):
+        if content['type'] == 'read':
+            id = content['content']['id']
+            notification = Notification.objects.get(pk=id)
+            notification.is_read = True
+            notification.save()
+            self.send_must_refresh()
