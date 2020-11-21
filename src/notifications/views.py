@@ -11,7 +11,9 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = dict()
+        if not self.request.is_ajax():
+            context = super().get_context_data(**kwargs)
         notifications = Notification.objects.all().order_by('-datetime')[:8]
         new_notifications = Notification.objects.filter(is_read=False).count()
         context['notifications'] = notifications

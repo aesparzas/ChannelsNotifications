@@ -9,7 +9,7 @@ Every time an admin logged in the admin panel creates a notification, a bootstra
 shown in the index page (no login required).
 The notifications appear in the dropdown (limited to 8, ordered from newer to older) accesed via
 the badge in the navbar. If a notification is clicked in there, its read status is set to `True` and
-the page is reloaded. You can notice read notifications by its background color being white
+the notification info is reloaded. You can notice read notifications by its background color being white
 (unread are yellow.) 
 
 ## Deployment
